@@ -20,7 +20,7 @@ public class RegisterTests {
     }
 
     @Test
-    public void WithEmptyValue(){
+    public void withEmptyValue(){
         Response response = AuthClient.register("", "", 0);
 
         assertEquals(422, response.getStatusCode(), "fail because empty values");
@@ -34,7 +34,7 @@ public class RegisterTests {
     }
 
     @Test
-    public void WithSQLInjectionEmail(){
+    public void withSQLInjectionEmail(){
         Response response = AuthClient.register(
                 "' OR '1'='1@sql.com",
                 "okaydocky90",
@@ -44,7 +44,7 @@ public class RegisterTests {
     }
 
     @Test
-    public void WithWhitespace(){
+    public void withWhitespace(){
         String email = "  MarvelSpideyy@yandex.ru ";
         Response response = AuthClient.register(
                 email,

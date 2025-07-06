@@ -8,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class UserProfileTest {
 
     @Test
-    public void WithInvalidToken() {
+    public void withInvalidToken() {
         String fakeToken = "3857892359825#$#@$@#$#@$%235hfibdifbd";
 
         Response response = AuthClient.getUserProfile(fakeToken);
@@ -18,7 +18,7 @@ public class UserProfileTest {
     }
 
     @Test
-    public void WithNullToken() {
+    public void withNullToken() {
         Response response = AuthClient.getUserProfile(null);
 
         assertEquals(401, response.getStatusCode(),

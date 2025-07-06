@@ -23,7 +23,7 @@ public class LoginTests {
     }
 
     @Test
-    public void WithEmptyValues(){
+    public void withEmptyValues(){
         Response response = AuthClient.login("", "");
 
         assertEquals(422, response.getStatusCode(),
@@ -31,7 +31,7 @@ public class LoginTests {
     }
 
     @Test
-    public void WithNullValues(){
+    public void withNullValues(){
         Response response = AuthClient.login(null, "okaydocky90");
         assertEquals(422, response.getStatusCode(), "The Email is Null!!");
 
@@ -41,7 +41,7 @@ public class LoginTests {
     }
 
     @Test
-    public void WithSQLInjection(){
+    public void withSQLInjection(){
         String email = "' OR '1'='1";
         String password = "' OR '1'='1";
 
@@ -52,7 +52,7 @@ public class LoginTests {
     }
 
     @Test
-    public void WithInvalidPassword(){
+    public void withInvalidPassword(){
         String email = DataGenerator.generateUniqueEmail();
         String password = "okaydocky90";
 
