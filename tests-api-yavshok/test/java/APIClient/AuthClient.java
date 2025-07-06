@@ -1,14 +1,18 @@
 package APIClient;
 
+import com.google.gson.JsonObject;
 import io.restassured.response.Response;
 
 import static io.restassured.RestAssured.given;
 
 public class AuthClient extends BaseClient {
-    public Response register(String email, String password, int age){
-        String payload = String.format("{\"email\":\"%s\", \"password\":\"%s\", \"age\":%d}",
-                email, password, age);
-
+    public static Response register(String email, String password, int age){
+        //using json library
+        JsonObject obj = new JsonObject();
+        obj.addProperty("email", email);
+        obj.addProperty("password", password);
+        obj.addProperty("age", age);
+        String payload = obj.toString();
         return given()
                 // .log().all()
                 .header("Content-Type", "application/json")
@@ -17,10 +21,12 @@ public class AuthClient extends BaseClient {
                 .post("/auth/register");
     }
 
-    public Response login(String email, String password){
-        String payload = String.format("{\"email\":\"%s\", \"password\":\"%s\"}",
-                email, password);
-
+    public static Response login(String email, String password){
+        //using json library
+        JsonObject obj = new JsonObject();
+        obj.addProperty("email", email);
+        obj.addProperty("password", password);
+        String payload = obj.toString();
         return given()
                 // .log().all()
                 .header("Content-Type", "application/json")
@@ -29,8 +35,11 @@ public class AuthClient extends BaseClient {
                 .post("/auth/login");
     }
 
-    public Response checkShock(String email){
-        String payload = String.format("{\"email\":\"%s\"}", email);
+    public static Response checkShock(String email){
+        //using json library
+        JsonObject obj = new JsonObject();
+        obj.addProperty("email", email);
+        String payload = obj.toString();
 
         return given()
                 //.log().all()
@@ -40,16 +49,18 @@ public class AuthClient extends BaseClient {
                 .post("/exist");
     }
 
-    public Response getUserProfile(String token){
+    public static Response getUserProfile(String token){
         return given()
                 // .log().all()
                 .header("Authorization", "Bearer " + token)
                 .when()
                 .get("/user/me");
     }
-    public Response changeUserName(String token, String newName){
-        String payload = String.format("{\"name\": \"%s\"}", newName);
-
+    public static Response changeUserName(String token, String newName){
+        //using json library
+        JsonObject obj = new JsonObject();
+        obj.addProperty("name", newName);
+        String payload = obj.toString();
         return given()
 //                .log().all()
                 .header("Authorization", "Bearer " + token)

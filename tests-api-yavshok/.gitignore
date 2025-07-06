@@ -36,3 +36,10 @@ build/
 
 ### Mac OS ###
 .DS_Store
+
+# Ignore specific IDEA config files in yavshok-api-tests
+yavshok-api-tests/.idea/misc.xml
+yavshok-api-tests/.idea/encodings.xml
+yavshok-api-tests/.idea/codeStyles/codeStyleConfig.xml
+yavshok-api-tests/.idea/codeStyles/Project.xml
+yavshok-api-tests/.idea/.gitignore

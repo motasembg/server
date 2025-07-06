@@ -2,7 +2,7 @@ package tests;
 
 import io.restassured.response.Response;
 import org.junit.jupiter.api.Test;
-import Service.AuthService;
+import APIClient.AuthClient;
 import resources.DataGenerator;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -15,27 +15,27 @@ public class RegisterTests {
         String password = "okaydocky90";
         int age = DataGenerator.youngCat();
 
-        Response response = AuthService.registerUser(email, password, age);
+        Response response = AuthClient.register(email, password, age);
         assertEquals(200, response.getStatusCode(), "Created User!");
     }
 
     @Test
     public void WithEmptyValue(){
-        Response response = AuthService.registerUser("", "", 0);
+        Response response = AuthClient.register("", "", 0);
 
         assertEquals(422, response.getStatusCode(), "fail because empty values");
     }
 
     @Test
     public void registrationWithNullValues(){
-        Response response = AuthService.registerUser(null, null, 0);
+        Response response = AuthClient.register(null, null, 0);
 
         assertEquals(422, response.getStatusCode(), "Null Values!!!");
     }
 
     @Test
     public void WithSQLInjectionEmail(){
-        Response response = AuthService.registerUser(
+        Response response = AuthClient.register(
                 "' OR '1'='1@sql.com",
                 "okaydocky90",
                 DataGenerator.youngCat());
@@ -46,7 +46,7 @@ public class RegisterTests {
     @Test
     public void WithWhitespace(){
         String email = "  MarvelSpideyy@yandex.ru ";
-        Response response = AuthService.registerUser(
+        Response response = AuthClient.register(
                 email,
                 "okaydocky90",
                 DataGenerator.youngCat());
@@ -57,14 +57,14 @@ public class RegisterTests {
 
     @Test
     public void registrationWithInvalidEmail(){
-        Response response = AuthService.registerUser("fakeemail.ru", "Abogsysa123", 26);
+        Response response = AuthClient.register("fakeemail.ru", "Abogsysa123", 26);
         assertEquals(422, response.getStatusCode(), "Expected 422 for invalid email");
         assertTrue(response.getBody().asString().contains("email"), "Should mention email error");
     }
 
     @Test
     public void registrationWithShortPassword(){
-        Response response = AuthService.registerUser(
+        Response response = AuthClient.register(
                 DataGenerator.generateUniqueEmail(),
                 "123",
                 DataGenerator.adultCat());
@@ -76,12 +76,12 @@ public class RegisterTests {
     public void registrationWithDuplicateEmail(){
         String email = DataGenerator.generateUniqueEmail();
         //first regis!!
-        AuthService.registerUser(email,
+        AuthClient.register(email,
                 "okaydocky90",
                 DataGenerator.adultCat());
 
         //second regis with same email!
-        Response response = AuthService.registerUser(email,
+        Response response = AuthClient.register(email,
                 "okaydocky90",
                 DataGenerator.adultCat());
         assertEquals(422, response.getStatusCode(),
